@@ -12,7 +12,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DEPTH_AND_PERSP_CORRECT 0
+
+#if DEPTH_AND_PERSP_CORRECT
 #define SORT_TRIANGLES 0
+#else
+#define SORT_TRIANGLES 1
+#endif
 
 void xd_draw_triangle(fx32 x0, fx32 y0, fx32 x1, fx32 y1, fx32 x2, fx32 y2, int color);
 void xd_draw_textured_triangle(fx32 x0, fx32 y0, fx32 z0, fx32 u0, fx32 v0, fx32 r0, fx32 g0, fx32 b0, fx32 a0, fx32 x1,
@@ -549,7 +555,8 @@ void draw_model(int viewport_width, int viewport_height, vec3d* vec_camera, mode
                 tri_projected.c[0] = clipped[n].c[0];
                 tri_projected.c[1] = clipped[n].c[1];
                 tri_projected.c[2] = clipped[n].c[2];
-
+                
+#if DEPTH_AND_PERSP_CORRECT
                 tri_projected.t[0].u = DIV(tri_projected.t[0].u, tri_projected.p[0].w);
                 tri_projected.t[1].u = DIV(tri_projected.t[1].u, tri_projected.p[1].w);
                 tri_projected.t[2].u = DIV(tri_projected.t[2].u, tri_projected.p[2].w);
@@ -577,6 +584,7 @@ void draw_model(int viewport_width, int viewport_height, vec3d* vec_camera, mode
                 tri_projected.c[0].w = DIV(tri_projected.c[0].w, tri_projected.p[0].w);
                 tri_projected.c[1].w = DIV(tri_projected.c[1].w, tri_projected.p[1].w);
                 tri_projected.c[2].w = DIV(tri_projected.c[2].w, tri_projected.p[2].w);
+#endif
 
                 // scale into view
                 tri_projected.p[0] = vector_div(&tri_projected.p[0], tri_projected.p[0].w);

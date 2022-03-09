@@ -4,7 +4,7 @@
 module reciprocal #(
     parameter NUMERATOR = 32'h100,
     parameter END_INTERPOLATION_REGION = 4096,     // values beyond this will return 0
-    parameter NB_SUBDIVISIONS = 2048
+    parameter NB_SUBDIVISIONS = 1024
 )(
     input wire logic clk,
     input wire logic [31:0] x_i,
